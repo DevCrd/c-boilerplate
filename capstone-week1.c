@@ -3,37 +3,44 @@
 
 int main(void)
 {
+    // Ask user for number of students and subjects
     int students = get_int("How many students? ");
     int subjects = get_int("How many subjects? ");
 
+    // Declare array to store student names
     string names[students];
+    // Declare 2D array to store scores for each student and subject
     int scores[students][subjects];
 
-    // got  error: too many arguments to function ‘get_string’ and now i have to catch the formatted characters
+    // Grade thresholds as named constants (magic numbers removed)
+    const int GRADE_A = 70;
+    const int GRADE_B = 60;
+    const int GRADE_C = 50;
+    const int GRADE_D = 45;
 
+    // Buffer to hold formatted prompt strings
     char prompt[100];
 
-
+    // Input loop: get names and scores for each student
     for (int i = 0; i < students; i++)
     {
+        // Create formatted prompt: "Enter name of student 1: "
         snprintf(prompt, sizeof(prompt), "Enter name of student %i: ", i + 1);
         names[i] = get_string(prompt);
-        
-        // names[i] = get_string("Enter name of student %i: ", i + 1);
+
         for (int j = 0; j < subjects; j++)
         {
-
+            // Create formatted prompt: "Enter score for subject 1: "
             snprintf(prompt, sizeof(prompt), "Enter score for subject %i: ", j + 1);
             scores[i][j] = get_int(prompt);
-
-            // this part works with cs50 
-            // scores[i][j] = get_int("Enter score for subject %i: ", j + 1);
         }
     }
 
+    // Print summary report header
     printf("\n--- Summary Report ---\n");
     printf("Name     Total  Average  Grade\n");
 
+    // Process and print each student's total, average, and grade
     for (int i = 0; i < students; i++)
     {
         int total = 0;
@@ -41,15 +48,23 @@ int main(void)
         {
             total += scores[i][j];
         }
+
         float average = (float) total / subjects;
         char grade;
 
-        if (average >= 70) grade = 'A';
-        else if (average >= 60) grade = 'B';
-        else if (average >= 50) grade = 'C';
-        else if (average >= 45) grade = 'D';
-        else grade = 'F';
+        // Determine grade based on average using thresholds
+        if (average >= GRADE_A)
+            grade = 'A';
+        else if (average >= GRADE_B)
+            grade = 'B';
+        else if (average >= GRADE_C)
+            grade = 'C';
+        else if (average >= GRADE_D)
+            grade = 'D';
+        else
+            grade = 'F';
 
+        // Print formatted summary line for each student
         printf("%-8s %5i  %7.2f    %c\n", names[i], total, average, grade);
     }
 }
