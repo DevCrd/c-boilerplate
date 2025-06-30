@@ -12,7 +12,7 @@ int main(void)
     // Declare 2D array to store scores for each student and subject
     int scores[students][subjects];
 
-    // Grade thresholds as named constants (magic numbers removed)
+    // Grade thresholds as named constants 
     const int GRADE_A = 70;
     const int GRADE_B = 60;
     const int GRADE_C = 50;
