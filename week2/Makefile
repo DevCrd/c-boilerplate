@@ -1,15 +1,19 @@
-CC = gcc
-CFLAGS = -Wall -Wextra -std=c99 -g
-TARGET = contact_manager
+# Compiler and flags
+CC      = gcc
+CFLAGS  = -Wall -Wextra -std=c99 -g
+TARGET  = contact_manager
+
+# Sources and objects
 SOURCES = main.c contact.c
 OBJECTS = $(SOURCES:.c=.o)
 
-.PHONY: all clean test
+# Default target
+.PHONY: all clean run test install help
 
 all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
-	$(CC) $(OBJECTS) -o $(TARGET)
+	$(CC) $(CFLAGS) $(OBJECTS) -o $(TARGET)
 
 %.o: %.c contact.h
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -17,28 +21,29 @@ $(TARGET): $(OBJECTS)
 clean:
 	rm -f $(OBJECTS) $(TARGET)
 
+# Quick run (example: list then add a contact, then list)
+run: $(TARGET)
+	./$(TARGET) -l -a "John Doe" "555-1234" "john@email.com" -l
+
+# Basic test with multiple argv operations
 test: $(TARGET)
-	@echo "Creating sample CSV file..."
-	@echo "John Doe,555-1234,john@email.com" > sample_contacts.csv
-	@echo "Jane Smith,555-5678,jane@email.com" >> sample_contacts.csv
-	@echo "Bob Johnson,555-9012,bob@email.com" >> sample_contacts.csv
 	@echo ""
-	@echo "Testing load and list:"
-	./$(TARGET) -f sample_contacts.csv -l
+	@echo "Running tests with command-line arguments only:"
+	@echo "-----------------------------------------------"
+	./$(TARGET) -a "Alice" "555-0000" "alice@email.com" -a "Bob" "555-1111" "bob@email.com" -l
 	@echo ""
-	@echo "Testing search:"
-	./$(TARGET) -f sample_contacts.csv -s "John"
+	./$(TARGET) -s "Alice"
 	@echo ""
-	@echo "Testing add and save:"
-	./$(TARGET) -f sample_contacts.csv -a "Alice Brown" "555-3456" "alice@email.com" -save updated_contacts.csv -l
+	./$(TARGET) -r "Alice" -l
 
 install: $(TARGET)
-	cp $(TARGET) /usr/local/bin/
+	sudo cp $(TARGET) /usr/local/bin/
 
 help:
 	@echo "Available targets:"
-	@echo "  all     - Build the contact manager"
-	@echo "  clean   - Remove object files and executable"
-	@echo "  test    - Run basic functionality tests"
-	@echo "  install - Install to /usr/local/bin"
-	@echo "  help    - Show this help message"
+	@echo "  all      - Build the contact manager"
+	@echo "  clean    - Remove object files and executable"
+	@echo "  run      - Build and run with sample argv commands"
+	@echo "  test     - Run basic functionality tests (argv only)"
+	@echo "  install  - Install to /usr/local/bin"
+	@echo "  help     - Show this help message"

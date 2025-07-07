@@ -14,20 +14,8 @@ int main(int argc, char *argv[]) {
     
     int i = 1;
     while (i < argc) {
-        if (strcmp(argv[i], "-f") == 0) {
-            // Load from file
-            if (i + 1 >= argc) {
-                fprintf(stderr, "Error: -f requires a filename\n");
-                destroy_contact_manager(manager);
-                return 1;
-            }
-            if (!load_contacts_from_csv(manager, argv[i + 1])) {
-                destroy_contact_manager(manager);
-                return 1;
-            }
-            i += 2;
-        }
-        else if (strcmp(argv[i], "-l") == 0) {
+        
+        if (strcmp(argv[i], "-l") == 0) {
             // List all contacts
             list_all_contacts(manager);
             i++;
@@ -65,19 +53,12 @@ int main(int argc, char *argv[]) {
             search_contacts(manager, argv[i + 1]);
             i += 2;
         }
-        else if (strcmp(argv[i], "-save") == 0) {
-            // Save to file
-            if (i + 1 >= argc) {
-                fprintf(stderr, "Error: -save requires a filename\n");
-                destroy_contact_manager(manager);
-                return 1;
-            }
-            if (!save_contacts_to_csv(manager, argv[i + 1])) {
-                destroy_contact_manager(manager);
-                return 1;
-            }
-            i += 2;
+        else if (strcmp(argv[i], "-i") == 0) {
+            // Interactive mode: read contacts from user input
+            interactive_add_contacts(manager);
+            i++;
         }
+        
         else if (strcmp(argv[i], "-h") == 0) {
             // Help
             print_usage(argv[0]);

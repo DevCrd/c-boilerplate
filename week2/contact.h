@@ -35,5 +35,6 @@ void list_all_contacts(ContactManager *manager);
 void print_usage(const char *program_name);
 int resize_contact_array(ContactManager *manager);
 void trim_whitespace(char *str);
+void interactive_add_contacts(ContactManager *manager);
 
 #endif

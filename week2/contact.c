@@ -266,16 +266,40 @@ void print_usage(const char *program_name) {
     printf("Contact Manager CLI\n");
     printf("Usage: %s [options]\n\n", program_name);
     printf("Options:\n");
-    printf("  -f <file>              Load contacts from CSV file\n");
     printf("  -l                     List all contacts\n");
     printf("  -a <name> <phone> <email>  Add a new contact\n");
     printf("  -r <name>              Remove contact by name\n");
     printf("  -s <query>             Search contacts\n");
-    printf("  -save <file>           Save contacts to CSV file\n");
     printf("  -h                     Show this help message\n\n");
-    printf("Examples:\n");
-    printf("  %s -f contacts.csv -l\n", program_name);
-    printf("  %s -f contacts.csv -a \"John Doe\" \"555-1234\" \"john@email.com\"\n", program_name);
-    printf("  %s -f contacts.csv -s \"John\"\n", program_name);
-    printf("  %s -f contacts.csv -r \"John Doe\" -save contacts.csv\n", program_name);
+    printf("  -i                     Enter contacts interactively via stdin\n");
+
+}
+
+void interactive_add_contacts(ContactManager *manager) {
+    char name[MAX_NAME_LENGTH];
+    char phone[MAX_PHONE_LENGTH];
+    char email[MAX_EMAIL_LENGTH];
+
+    printf("Enter contacts (leave name empty to finish):\n");
+
+    while (1) {
+        printf("Name: ");
+        if (!fgets(name, sizeof(name), stdin)) break;
+        trim_whitespace(name);
+        if (strlen(name) == 0) break;  // Empty name finishes input
+
+        printf("Phone: ");
+        if (!fgets(phone, sizeof(phone), stdin)) break;
+        trim_whitespace(phone);
+
+        printf("Email: ");
+        if (!fgets(email, sizeof(email), stdin)) break;
+        trim_whitespace(email);
+
+        if (!add_contact(manager, name, phone, email)) {
+            fprintf(stderr, "Error: Failed to add contact\n");
+        }
+    }
+
+    printf("Finished entering contacts.\n");
 }
