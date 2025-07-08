@@ -36,8 +36,7 @@ test: $(TARGET)
 	@echo ""
 	./$(TARGET) -r "Alice" -l
 
-install: $(TARGET)
-	sudo cp $(TARGET) /usr/local/bin/
+
 
 help:
 	@echo "Available targets:"
@@ -45,5 +44,4 @@ help:
 	@echo "  clean    - Remove object files and executable"
 	@echo "  run      - Build and run with sample argv commands"
 	@echo "  test     - Run basic functionality tests (argv only)"
-	@echo "  install  - Install to /usr/local/bin"
 	@echo "  help     - Show this help message"

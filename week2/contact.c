@@ -250,9 +250,9 @@ void list_all_contacts(ContactManager *manager) {
     
     for (int i = 0; i < manager->count; i++) {
         printf("%-20s %-15s %-30s\n",
-               manager->contacts[i].name,
-               manager->contacts[i].phone,
-               manager->contacts[i].email);
+            manager->contacts[i].name,
+            manager->contacts[i].phone,
+            manager->contacts[i].email);
     }
     
     printf("\nTotal entries: %d\n", manager->count);
