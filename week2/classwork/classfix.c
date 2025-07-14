@@ -18,9 +18,6 @@ int main(int argc, char *argv[])
 
 
 
-
-
-
 int my_ascending_order(void) {
     int initial_array[] = {1, 5, 2, 3, 4};
     int size = 5;
